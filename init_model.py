@@ -6,7 +6,6 @@ def main():
     # 创建空数据文件
     data_path = Path("battery_data.csv")
     pd.DataFrame(columns=["cycle", "capacity", "voltage"]).to_csv(data_path, index=False)
-    # 清空/新建state.pkl
     state_path = Path("simulation_data/state.pkl")
     state_path.parent.mkdir(exist_ok=True)
     if state_path.exists():
