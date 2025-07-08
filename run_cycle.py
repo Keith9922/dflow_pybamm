@@ -3,13 +3,15 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 import sys
+import os
 
 def main():
         # 检查文件是否存在
     if not Path("battery_data.csv").exists():
         print("鸡你太美")
         return
-    num_cycles = int(sys.argv[1]) if len(sys.argv) > 1 else 50
+    num_cycles = int(sys.argv[1]) if len(sys.argv) > 1 else 10
+    output_file = "battery_data.csv"
     model = pybamm.lithium_ion.DFN(options={"SEI": "ec reaction limited"})
     param = model.default_parameter_values
     param["Ambient temperature [K]"] = 25 + 273.15
@@ -44,8 +46,9 @@ def main():
         results.append({"cycle": i+1, "capacity": capacity, "voltage": avg_voltage})
 
     df = pd.DataFrame(results)
-    df.to_csv("battery_data.csv", mode = 'a', index=False)
-    print("All cycles completed. Results saved to battery_data.csv")
+    file_exists = os.path.exists(output_file) and os.path.getsize(output_file) > 0
+    df.to_csv(output_file, mode='a', index=False, header=not file_exists)
+    print(f"All cycles completed. Results {'appended to' if file_exists else 'saved to'} {output_file}")
 
 if __name__ == "__main__":
     main()
