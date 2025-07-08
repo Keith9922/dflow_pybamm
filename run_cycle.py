@@ -44,7 +44,7 @@ def main():
         results.append({"cycle": i+1, "capacity": capacity, "voltage": avg_voltage})
 
     df = pd.DataFrame(results)
-    df.to_csv("battery_data.csv", mode='w', index=False)
+    df.to_csv("battery_data.csv", index=False)
     print("All cycles completed. Results saved to battery_data.csv")
 
 if __name__ == "__main__":
