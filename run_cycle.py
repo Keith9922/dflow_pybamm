@@ -5,6 +5,10 @@ from pathlib import Path
 import sys
 
 def main():
+        # 检查文件是否存在
+    if not Path("battery_data.csv").exists():
+        print("鸡你太美")
+        return
     num_cycles = int(sys.argv[1]) if len(sys.argv) > 1 else 50
     model = pybamm.lithium_ion.DFN(options={"SEI": "ec reaction limited"})
     param = model.default_parameter_values
